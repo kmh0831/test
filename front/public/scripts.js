@@ -24,43 +24,24 @@ window.addEventListener("wheel", function(event) {
 
 // 모달 관련 코드
 document.addEventListener('DOMContentLoaded', () => {
-    // 모달 요소 가져오기
-    const modal = document.getElementById('movie-modal');
-    
-    // 페이지 로드 시 모달이 보이지 않도록 설정
-    modal.style.display = 'none';
+    // 영화 모달 요소 가져오기
+    const movieModal = document.getElementById('movie-modal');
+
+    // 영화 모달 닫기 버튼
+    const closeMovieBtn = document.querySelector('.close');
+    closeMovieBtn.addEventListener('click', closeMovieModal);
+
+    // 모달 닫기 함수
+    function closeMovieModal() {
+        movieModal.style.display = 'none';
+        document.getElementById('movie-trailer').src = ''; // 모달을 닫을 때 유튜브 영상 중지
+    }
 
     // 영화 데이터를 가져와서 페이지에 표시하는 함수
     fetchMovies();
 
-    // 모달 닫기 버튼에 이벤트 리스너 추가
-    const closeBtn = document.querySelector('.close');
-    closeBtn.addEventListener('click', closeModal);
-});
+    // ====== 로그인/회원가입 및 프로필 기능 추가 ======
 
-function closeModal() {
-    const modal = document.getElementById('movie-modal');
-    modal.style.display = 'none';
-    document.getElementById('movie-trailer').src = ''; // 모달을 닫을 때 유튜브 영상도 중지
-}
-
-function openModal(movie) {
-    const modal = document.getElementById('movie-modal');
-    const trailer = document.getElementById('movie-trailer');
-    const title = document.getElementById('movie-title');
-    const description = document.getElementById('movie-description');
-
-    // 모달에 영화 정보 추가
-    trailer.src = movie.trailer_url;  // 유튜브 영상 URL 설정
-    title.textContent = movie.title;
-    description.textContent = movie.description;
-
-    modal.style.display = 'block';  // 모달을 열기
-}
-
-// ====== 로그인/회원가입 및 프로필 기능 추가 ======
-
-document.addEventListener('DOMContentLoaded', () => {
     // 로그인 상태 확인 후 닉네임 출력
     const token = localStorage.getItem('token');
     if (token) {
@@ -169,11 +150,19 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // 모달 닫기 버튼
+    // 모달 닫기 버튼 (프로필 및 영화 모달)
     const closeButtons = document.querySelectorAll('.close');
     closeButtons.forEach(btn => {
         btn.addEventListener('click', () => {
             document.querySelector('.modal').style.display = 'none';
         });
+    });
+
+    // 창 외부 클릭 시 모달 닫기
+    window.addEventListener('click', (event) => {
+        const profileModal = document.getElementById('profile-modal');
+        if (event.target === profileModal) {
+            profileModal.style.display = 'none';
+        }
     });
 });
