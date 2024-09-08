@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { CognitoUserPool, CognitoUser, AuthenticationDetails } from 'amazon-cognito-identity-js';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';  // useHistory 대신 useNavigate 사용
 import { awsConfig } from '../awsConfig';  // AWS Cognito 설정 가져오기
 
 // Cognito User Pool 설정
@@ -12,7 +12,7 @@ const userPool = new CognitoUserPool({
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const history = useHistory();
+  const navigate = useNavigate();  // useHistory 대신 useNavigate 사용
 
   const handleLogin = () => {
     const authDetails = new AuthenticationDetails({
@@ -29,7 +29,7 @@ function Login() {
       onSuccess: (result) => {
         const token = result.getAccessToken().getJwtToken();
         localStorage.setItem('token', token);  // JWT 토큰을 저장하여 로그인 상태 유지
-        history.push('/movies');  // 로그인 성공 시 영화 목록 페이지로 이동
+        navigate('/movies');  // 로그인 성공 시 영화 목록 페이지로 이동
       },
       onFailure: (err) => {
         console.error('Login failed:', err);
