@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import MovieList from './components/MovieList';
 import Login from './components/Login';
-import Signup from './components/Signup';  // Signup 컴포넌트 추가
+import Signup from './components/Signup';  
 import FavoriteMovies from './components/FavoriteMovies';
-import Slider from './components/Slider';  // 슬라이더 컴포넌트 추가
+import Slider from './components/Slider';  
 import './App.css';
 
 function App() {
@@ -27,7 +27,7 @@ function App() {
   return (
     <Router>
       <div className={`App ${!isAuthenticated ? 'background' : ''}`}>
-        {/* 상단 배너와 슬라이더를 로그인한 사용자에게만 표시 */}
+        {/* 로그인한 사용자만 상단 배너와 슬라이더를 표시 */}
         {isAuthenticated ? (
           <>
             <header>
@@ -41,11 +41,28 @@ function App() {
           {/* 로그인한 사용자만 접근 가능한 메인 페이지 */}
           <Route
             path="/"
-            element={isAuthenticated ? <MovieList /> : <Navigate to="/login" />}
+            element={
+              isAuthenticated ? (
+                <MovieList />
+              ) : (
+                <Navigate to="/login" />
+              )
+            }
           />
 
           {/* 회원가입 페이지 */}
-          <Route path="/signup" element={<Signup />} />
+          <Route
+            path="/signup"
+            element={
+              !isAuthenticated ? (
+                <div className="signup-background">
+                  <Signup />
+                </div>
+              ) : (
+                <Navigate to="/" />
+              )
+            }
+          />
 
           {/* 찜한 영화 목록 페이지: 로그인한 사용자만 접근 가능 */}
           <Route
@@ -54,7 +71,18 @@ function App() {
           />
 
           {/* 로그인 페이지 */}
-          <Route path="/login" element={<Login setIsAuthenticated={setIsAuthenticated} />} />
+          <Route
+            path="/login"
+            element={
+              !isAuthenticated ? (
+                <div className="login-background">
+                  <Login setIsAuthenticated={setIsAuthenticated} />
+                </div>
+              ) : (
+                <Navigate to="/" />
+              )
+            }
+          />
         </Routes>
       </div>
     </Router>
