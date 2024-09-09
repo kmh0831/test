@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { CognitoUserPool } from 'amazon-cognito-identity-js';
 import { awsConfig } from '../awsConfig';
-import './Signup.css';  // 스타일 적용
+import { useNavigate } from 'react-router-dom'; // 페이지 이동을 위한 useNavigate 추가
+import '../App.css';
 
 const userPool = new CognitoUserPool({
   UserPoolId: awsConfig.userPoolId,
@@ -15,6 +16,7 @@ function Signup({ closeSignup }) {
   const [phone, setPhone] = useState('');
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
+  const navigate = useNavigate(); // useNavigate 추가
 
   const handleSignup = (e) => {
     e.preventDefault();
@@ -28,6 +30,7 @@ function Signup({ closeSignup }) {
         setError(err.message || JSON.stringify(err));
       } else {
         setSuccess(true);
+        navigate('/login'); // 회원가입 성공 시 로그인 페이지로 이동
       }
     });
   };
@@ -35,7 +38,7 @@ function Signup({ closeSignup }) {
   return (
     <div className="signup-background">
       <div className="signup-container">
-        <span className="close" onClick={closeSignup}>×</span> {/* X 버튼 */}
+        <span className="close" onClick={() => navigate('/login')}>×</span> {/* X 버튼 클릭 시 로그인 페이지로 이동 */}
         <h2>Sign Up</h2>
         {error && <div style={{ color: 'red' }}>{error}</div>}
         {success && <div style={{ color: 'green' }}>Signup successful!</div>}

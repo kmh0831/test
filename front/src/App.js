@@ -26,11 +26,13 @@ function App() {
 
   return (
     <Router>
-      <div className="App">
-        <h1>OTT Movie Service</h1>
-
-        {/* 메인 페이지에 슬라이더 추가 */}
-        <Slider />
+      <div className={`App ${!isAuthenticated ? 'background' : ''}`}>
+        {isAuthenticated && (
+          <>
+            <h1>OTT Movie Service</h1>
+            <Slider />
+          </>
+        )}
 
         <Routes>
           {/* 로그인한 사용자만 접근 가능한 메인 페이지 */}

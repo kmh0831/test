@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import { CognitoUserPool, AuthenticationDetails, CognitoUser } from 'amazon-cognito-identity-js';
 import { useNavigate } from 'react-router-dom';
 import { awsConfig } from '../awsConfig';
-import './Login.css';  // 스타일 적용
+import '../App.css';  // App.css에 통합된 스타일을 불러오기
 
+// Cognito User Pool 설정
 const userPool = new CognitoUserPool({
   UserPoolId: awsConfig.userPoolId,
   ClientId: awsConfig.clientId,
@@ -14,6 +15,7 @@ function Login({ setIsAuthenticated }) {
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
+  // 로그인 처리 함수
   const handleLogin = () => {
     const authDetails = new AuthenticationDetails({
       Username: email,
@@ -36,7 +38,7 @@ function Login({ setIsAuthenticated }) {
       },
       onFailure: (err) => {
         console.error('Login failed:', err);
-        alert('로그인에 실패했습니다. 다시 시도해 주세요.');
+        alert(`로그인에 실패했습니다. 오류: ${err.message}`);  // 오류 메시지 추가
       },
     });
   };
