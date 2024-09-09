@@ -7,6 +7,10 @@ body {
     overflow: hidden; /* 모든 스크롤바를 없앰 */
 }
 
+body::-webkit-scrollbar {
+    display: none; /* 웹킷 기반 브라우저에서 스크롤바를 숨김 */
+}
+
 main {
     height: 200vh; /* 컨텐츠 높이를 늘려 위아래 스크롤이 가능하게 */
 }

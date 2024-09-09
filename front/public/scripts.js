@@ -17,7 +17,13 @@ showSlides();
 
 // 휠 스크롤로 페이지 이동
 window.addEventListener("wheel", function(event) {
-    document.documentElement.scrollTop += event.deltaY;
+    const delta = event.deltaY || event.wheelDelta;
+    if (delta) {
+        window.scrollBy({
+            top: delta,
+            behavior: 'smooth'  // 부드러운 스크롤
+        });
+    }
 });
 
 // 모달 관련 코드

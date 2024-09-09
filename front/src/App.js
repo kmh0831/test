@@ -27,12 +27,15 @@ function App() {
   return (
     <Router>
       <div className={`App ${!isAuthenticated ? 'background' : ''}`}>
-        {isAuthenticated && (
+        {/* 상단 배너와 슬라이더를 로그인한 사용자에게만 표시 */}
+        {isAuthenticated ? (
           <>
-            <h1>OTT Movie Service</h1>
-            <Slider />
+            <header>
+              <h1>OTT Movie Service</h1>
+              <Slider />
+            </header>
           </>
-        )}
+        ) : null}
 
         <Routes>
           {/* 로그인한 사용자만 접근 가능한 메인 페이지 */}
