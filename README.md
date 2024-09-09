@@ -121,12 +121,20 @@ VALUES ('너의 이름은', '영화 1의 설명', 'https://web-images-kmhyuk1018
 1. 프론트엔드
 
 pubilc/scripts.js
+
 58행 fetch('http://3.34.190.91:5000/api/user/login', {
+
 82행 fetch('http://3.34.190.91:5000/api/user/signup', {
+
 107행 fetch('http://3.34.190.91:5000/api/user/profile', {
+
 136행 fetch('http://3.34.190.91:5000/api/movies/favorites', {
+
 아이피 주소 백엔드 EC2주소로 변경
 
+
 src/components/FavoriteMovies.js
+
 16행 fetch('http://3.34.190.91:5000/api/movies/favorites', {
+
 아이피 주소 백엔드 EC2주소로 변경
