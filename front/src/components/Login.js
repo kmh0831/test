@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { CognitoUserPool, AuthenticationDetails, CognitoUser } from 'amazon-cognito-identity-js';
 import { useNavigate } from 'react-router-dom';
 import { awsConfig } from '../awsConfig';
-import '../App.css';  // App.css에 통합된 스타일을 불러오기
+import './Login.css'; // Login.js에서 스타일을 불러오기
 
 // Cognito User Pool 설정
 const userPool = new CognitoUserPool({

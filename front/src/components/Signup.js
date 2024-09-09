@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { CognitoUserPool } from 'amazon-cognito-identity-js';
 import { awsConfig } from '../awsConfig';
 import { useNavigate } from 'react-router-dom'; // 페이지 이동을 위한 useNavigate 추가
-import '../App.css';
+import './Signup.css'; // Signup.js에서
 
 const userPool = new CognitoUserPool({
   UserPoolId: awsConfig.userPoolId,

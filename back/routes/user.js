@@ -37,7 +37,7 @@ router.post('/signup', async (req, res) => {
       Username: email,
     };
 
-    await cognito.adminConfirmSignUp(confirmParams).promise();
+    await cognito.adminConfirmSignUp(confirmParams).promise(); // 사용자 자동 확인
 
     res.json({ message: 'User signed up and confirmed successfully', data });
   } catch (error) {
