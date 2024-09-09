@@ -1,8 +1,6 @@
 // 슬라이드 쇼 기능
 let slideIndex = 0;
 const slides = document.querySelectorAll(".slides");
-
-// 첫 번째 슬라이드 활성화
 slides[0].classList.add("active");
 
 function showSlides() {
@@ -24,28 +22,83 @@ window.addEventListener("wheel", function(event) {
 
 // 모달 관련 코드
 document.addEventListener('DOMContentLoaded', () => {
-    // 영화 모달 요소 가져오기
     const movieModal = document.getElementById('movie-modal');
-
-    // 영화 모달 닫기 버튼
     const closeMovieBtn = document.querySelector('.close');
     closeMovieBtn.addEventListener('click', closeMovieModal);
 
-    // 모달 닫기 함수
     function closeMovieModal() {
         movieModal.style.display = 'none';
-        document.getElementById('movie-trailer').src = ''; // 모달을 닫을 때 유튜브 영상 중지
+        document.getElementById('movie-trailer').src = '';
+    }
+
+    // 로그인 상태 확인 후 로그인 모달 표시
+    const token = localStorage.getItem('token');
+    if (!token) {
+        document.getElementById('login-modal').style.display = 'block'; // 로그인 모달 표시
+    } else {
+        fetchMovies(); // 로그인 상태면 영화 목록 로드
+        document.getElementById('login-modal').style.display = 'none'; // 로그인 모달 숨김
     }
 
     // 영화 데이터를 가져와서 페이지에 표시하는 함수
     fetchMovies();
 
-    // ====== 로그인/회원가입 및 프로필 기능 추가 ======
+    // 로그인 처리
+    document.getElementById('login-form').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const email = document.getElementById('login-email').value;
+        const password = document.getElementById('login-password').value;
+
+        fetch('http://3.34.190.91:5000/api/user/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, password })
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.token) {
+                localStorage.setItem('token', data.token);
+                document.getElementById('login-modal').style.display = 'none'; // 로그인 모달 닫기
+                fetchMovies(); // 영화 목록 불러오기
+            } else {
+                alert('로그인 실패');
+            }
+        });
+    });
+
+    // 회원가입 처리
+    document.getElementById('signup-form').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const email = document.getElementById('signup-email').value;
+        const password = document.getElementById('signup-password').value;
+        const name = document.getElementById('signup-name').value;
+
+        fetch('http://3.34.190.91:5000/api/user/signup', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, password, name })
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.message === 'User signed up successfully') {
+                alert('회원가입이 완료되었습니다.');
+                document.getElementById('signup-modal').style.display = 'none';
+            } else {
+                alert('회원가입 실패');
+            }
+        });
+    });
+
+    // 로그아웃 처리
+    document.getElementById('logout-btn').addEventListener('click', () => {
+        localStorage.removeItem('token');
+        alert('로그아웃되었습니다.');
+        location.reload();
+    });
 
     // 로그인 상태 확인 후 닉네임 출력
-    const token = localStorage.getItem('token');
     if (token) {
-        fetch('http://3.34.49.62:5000/api/user/profile', {
+        fetch('http://3.34.190.91:5000/api/user/profile', {
             headers: { Authorization: `Bearer ${token}` }
         })
         .then(res => res.json())
@@ -74,7 +127,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 찜한 목록 클릭 시 찜한 영화 표시
     document.getElementById('favorites-btn').addEventListener('click', () => {
-        fetch('http://3.34.49.62:5000/api/movies/favorites', {
+        fetch('http://3.34.190.91:5000/api/movies/favorites', {
             headers: { Authorization: `Bearer ${token}` }
         })
         .then(res => res.json())
@@ -96,66 +149,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         document.getElementById('user-info-section').style.display = 'none';
         document.getElementById('favorites-section').style.display = 'block';
-    });
-
-    // 로그아웃 처리
-    document.getElementById('logout-btn').addEventListener('click', () => {
-        localStorage.removeItem('token');
-        alert('로그아웃되었습니다.');
-        location.reload();
-    });
-
-    // 로그인 처리
-    document.getElementById('login-form').addEventListener('submit', (e) => {
-        e.preventDefault();
-        const email = document.getElementById('login-email').value;
-        const password = document.getElementById('login-password').value;
-
-        fetch('http://3.34.49.62:5000/api/user/login', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email, password })
-        })
-        .then(res => res.json())
-        .then(data => {
-            if (data.token) {
-                localStorage.setItem('token', data.token);
-                location.reload(); // 로그인 후 새로고침
-            } else {
-                alert('로그인 실패');
-            }
-        });
-    });
-
-    // 회원가입 처리
-    document.getElementById('signup-form').addEventListener('submit', (e) => {
-        e.preventDefault();
-        const email = document.getElementById('signup-email').value;
-        const password = document.getElementById('signup-password').value;
-        const name = document.getElementById('signup-name').value;
-
-        fetch('http://3.34.49.62:5000/api/user/signup', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email, password, name })
-        })
-        .then(res => res.json())
-        .then(data => {
-            if (data.message === 'User signed up successfully') {
-                alert('회원가입이 완료되었습니다.');
-                document.getElementById('signup-modal').style.display = 'none';
-            } else {
-                alert('회원가입 실패');
-            }
-        });
-    });
-
-    // 모달 닫기 버튼 (프로필 및 영화 모달)
-    const closeButtons = document.querySelectorAll('.close');
-    closeButtons.forEach(btn => {
-        btn.addEventListener('click', () => {
-            document.querySelector('.modal').style.display = 'none';
-        });
     });
 
     // 창 외부 클릭 시 모달 닫기

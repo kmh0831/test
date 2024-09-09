@@ -13,7 +13,7 @@ function FavoriteMovies() {
         }
 
         // 백엔드 API로부터 찜한 영화 목록 가져오기 (JWT 토큰 포함)
-        fetch('http://3.34.49.62:5000/api/movies/favorites', {
+        fetch('http://3.34.190.91:5000/api/movies/favorites', {
             headers: {
                 Authorization: `Bearer ${token}`,  // JWT 토큰을 Authorization 헤더에 추가
             }

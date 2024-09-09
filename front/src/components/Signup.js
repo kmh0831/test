@@ -11,7 +11,7 @@ function Signup() {
     e.preventDefault();
 
     try {
-      const response = await fetch('http://3.34.49.62:5000/api/user/signup', {
+      const response = await fetch('http://3.34.190.91:5000/api/user/signup', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -28,8 +28,10 @@ function Login() {
     cognitoUser.authenticateUser(authDetails, {
       onSuccess: (result) => {
         const token = result.getAccessToken().getJwtToken();
+        const expirationTime = new Date().getTime() + 6 * 60 * 60 * 1000; // 6시간 만료 시간
         localStorage.setItem('token', token);  // JWT 토큰을 저장하여 로그인 상태 유지
-        navigate('/movies');  // 로그인 성공 시 영화 목록 페이지로 이동
+        localStorage.setItem('token_expiration', expirationTime);  // 만료 시간 설정
+        navigate('/');  // 메인 페이지로 이동
       },
       onFailure: (err) => {
         console.error('Login failed:', err);
