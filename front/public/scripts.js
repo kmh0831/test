@@ -55,7 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const email = document.getElementById('login-email').value;
         const password = document.getElementById('login-password').value;
 
-        fetch('http://3.34.190.91:5000/api/user/login', {
+        fetch('http://54.180.117.65:5000/api/user/login', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email, password })
@@ -79,7 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const password = document.getElementById('signup-password').value;
         const name = document.getElementById('signup-name').value;
 
-        fetch('http://3.34.190.91:5000/api/user/signup', {
+        fetch('http://54.180.117.65:5000/api/user/signup', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email, password, name })
@@ -104,7 +104,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 로그인 상태 확인 후 닉네임 출력
     if (token) {
-        fetch('http://3.34.190.91:5000/api/user/profile', {
+        fetch('http://54.180.117.65:5000/api/user/profile', {
             headers: { Authorization: `Bearer ${token}` }
         })
         .then(res => res.json())
@@ -133,7 +133,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 찜한 목록 클릭 시 찜한 영화 표시
     document.getElementById('favorites-btn').addEventListener('click', () => {
-        fetch('http://3.34.190.91:5000/api/movies/favorites', {
+        fetch('http://54.180.117.65:5000/api/movies/favorites', {
             headers: { Authorization: `Bearer ${token}` }
         })
         .then(res => res.json())
