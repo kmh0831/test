@@ -28,14 +28,24 @@ function App() {
     <Router>
       <div className={`App ${!isAuthenticated ? 'background' : ''}`}>
         {/* 로그인한 사용자만 상단 배너와 슬라이더를 표시 */}
-        {isAuthenticated ? (
-          <>
-            <header>
-              <h1>OTT Movie Service</h1>
-              <Slider />
-            </header>
-          </>
-        ) : null}
+        {isAuthenticated && (
+          <header>
+            <div className="logo">
+              <img src="https://web-images-kmhyuk1018.s3.ap-northeast-2.amazonaws.com/logo.png" alt="ROCKET 로고" />
+            </div>
+            <div className="profile" id="profile-tab">프로필</div>
+            <nav className="nav-links">
+              <ul>
+                <li><a href="#">홈</a> |</li>
+                <li><a href="#">검색</a> |</li>
+                <li><a href="#">찜한 목록</a> |</li>
+                <li><a href="#">영화</a> |</li>
+                <li><a href="#">시리즈</a></li>
+              </ul>
+            </nav>
+            <Slider />
+          </header>
+        )}
 
         <Routes>
           {/* 로그인한 사용자만 접근 가능한 메인 페이지 */}
