@@ -1,61 +1,52 @@
 import React, { useState } from 'react';
+import { CognitoUserPool } from 'amazon-cognito-identity-js';
+import { awsConfig } from '../awsConfig';
+import './Signup.css';  // 스타일 적용
 
-function Signup() {
+const userPool = new CognitoUserPool({
+  UserPoolId: awsConfig.userPoolId,
+  ClientId: awsConfig.clientId,
+});
+
+function Signup({ closeSignup }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
+  const [phone, setPhone] = useState('');
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
 
-  const handleSignup = async (e) => {
+  const handleSignup = (e) => {
     e.preventDefault();
 
-    try {
-      const response = await fetch('http://3.34.190.91:5000/api/user/signup', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, password, name }), // API로 데이터 전송
-      });
-
-      const data = await response.json();
-      if (response.ok) {
-        setSuccess(true);
+    userPool.signUp(email, password, [
+      { Name: 'name', Value: name },
+      { Name: 'email', Value: email },
+      { Name: 'phone_number', Value: phone }
+    ], null, (err, result) => {
+      if (err) {
+        setError(err.message || JSON.stringify(err));
       } else {
-        setError(data.error);
+        setSuccess(true);
       }
-    } catch (err) {
-      setError('Something went wrong. Please try again.');
-    }
+    });
   };
 
   return (
-    <div>
-      <h2>Sign Up</h2>
-      {error && <div style={{ color: 'red' }}>{error}</div>}
-      {success && <div style={{ color: 'green' }}>Signup successful! Please check your email for verification.</div>}
-      <form onSubmit={handleSignup}>
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <input
-          type="text"
-          placeholder="Name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
-        <button type="submit">Sign Up</button>
-      </form>
+    <div className="signup-background">
+      <div className="signup-container">
+        <span className="close" onClick={closeSignup}>×</span> {/* X 버튼 */}
+        <h2>Sign Up</h2>
+        {error && <div style={{ color: 'red' }}>{error}</div>}
+        {success && <div style={{ color: 'green' }}>Signup successful!</div>}
+        <form onSubmit={handleSignup}>
+          <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
+          <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
+          <input type="text" placeholder="Name" value={name} onChange={(e) => setName(e.target.value)} />
+          <input type="tel" placeholder="Phone Number" value={phone} onChange={(e) => setPhone(e.target.value)} />
+          <button type="submit">Sign Up</button>
+        </form>
+      </div>
     </div>
   );
 }
