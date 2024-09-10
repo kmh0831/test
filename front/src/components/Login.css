@@ -1,12 +1,15 @@
 /* 배경 이미지 설정 */
 .login-background {
     background-image: url('https://web-images-kmhyuk1018.s3.ap-northeast-2.amazonaws.com/background.jpg');
-    background-size: cover;
-    background-position: center;
-    height: 100vh;
+    background-size: cover;  /* 이미지를 화면 크기에 맞춰 채움 */
+    background-position: center center;  /* 이미지 중앙 배치 */
+    background-repeat: no-repeat;  /* 이미지 반복 방지 */
+    height: 100vh;  /* 화면 전체 높이 설정 */
+    width: 100vw;   /* 화면 전체 너비 설정 */
     display: flex;
     justify-content: center;
     align-items: center;
+    overflow: hidden; /* 스크롤바 없이 화면에 꽉 차도록 설정 */
 }
 
 /* 로그인 모달 */
@@ -22,6 +25,7 @@
     align-items: center;
     justify-content: center;
     position: relative;
+    z-index: 10; /* 모달이 항상 배경 위에 표시되도록 설정 */
 }
 
 .login-container h2 {

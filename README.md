@@ -47,6 +47,7 @@ echo "export NVM_DIR=''" >> /home/ec2-user/.bashrc
 echo "export NODEJS_HOME=/usr/local/lib/node/nodejs" >> /home/ec2-user/.bashrc
 
 echo "export PATH=\$NODEJS_HOME/bin:\$PATH" >> /home/ec2-user/.bashrc
+
 . /home/ec2-user/.bashrc
 
 node -e "console.log('Running Node.js ' + process.version)"
