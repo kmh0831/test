@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import MovieList from './components/MovieList';
 import Login from './components/Login';
 import Signup from './components/Signup';  
-import FavoriteMovies from './components/FavoriteMovies';
 import Slider from './components/Slider';  
 import './App.css';
 
@@ -71,12 +70,6 @@ function App() {
                 <Navigate to="/" />
               )
             }
-          />
-
-          {/* 찜한 영화 목록 페이지: 로그인한 사용자만 접근 가능 */}
-          <Route
-            path="/favorites"
-            element={isAuthenticated ? <FavoriteMovies /> : <Navigate to="/login" />}
           />
 
           {/* 로그인 페이지 */}
